@@ -1,0 +1,90 @@
+<%title = "home" %>
+
+
+
+<nav class="w-full bg-gray-900 border-b border-gray-800 shadow-md">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+    <!-- Brand / Logo -->
+    <a href="/" class="text-xl font-semibold text-blue-400 tracking-wide hover:text-blue-200">
+      CloudStorageApp
+    </a>
+    <!-- Authentication Section -->
+    <% if (user) { %>
+      <div class="flex items-center space-x-3">
+        <span class="text-gray-200">Welcome, <span class="font-bold"><%= user.email %></span></span>
+        <a href="/logout" class="text-sm text-gray-400 hover:text-red-400 underline">Logout</a>
+      </div>
+    <% } else { %>
+      <a
+        href="/login"
+        class="text-sm font-semibold rounded px-4 py-2 bg-blue-700 text-white hover:bg-blue-800 transition"
+      >Login</a>
+    <% } %>
+  </div>
+</nav>
+
+
+<div class="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-8">
+  <!-- Upload Button -->
+  <div class="w-full max-w-2xl flex justify-end mb-6">
+    <form action="/upload" method="POST" enctype="multipart/form-data" class="flex space-x-3">
+      <input 
+        type="file" 
+        name="file" 
+        class="block w-full text-sm text-gray-400 
+               file:mr-4 file:py-2 file:px-4
+               file:rounded-full file:border-0
+               file:text-sm file:font-semibold
+               file:bg-blue-700 file:text-white
+               hover:file:bg-blue-800 transition"
+        required
+      />
+      <button 
+        type="submit" 
+        class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-5 rounded-lg transition"
+      >
+        Upload
+      </button>
+    </form>
+  </div>
+
+  <!-- Files List/Table -->
+  <div class="w-full max-w-2xl bg-gray-900 rounded-lg shadow-lg p-6">
+    <h2 class="text-lg font-semibold text-gray-200 mb-4">Your Files</h2>
+
+    <% if (files && files.length > 0) { %>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-gray-400 border-b border-gray-700">
+            <th class="py-2 text-left">Name</th>
+            <th class="py-2 text-left">Size</th>
+            <th class="py-2 text-left">Uploaded</th>
+            <th class="py-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% files.forEach(file => { %>
+            <tr class="border-b border-gray-800">
+              <td class="py-3 text-blue-300"><%= file.name %></td>
+              <td class="py-3"><%= file.size %> KB</td>
+              <td class="py-3"><%= file.uploadedAt %></td>
+              <td class="py-3">
+                <a href="<%= file.url %>" class="text-blue-400 hover:underline" target="_blank">Download</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <div class="text-gray-500 text-center py-8">
+        No files uploaded yet.
+      </div>
+    <% } %>
+  </div>
+</div>
+
+
+
+
+
+
